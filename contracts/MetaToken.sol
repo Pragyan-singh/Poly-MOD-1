@@ -3,7 +3,7 @@ pragma solidity 0.8.18;
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol"; 
 import "@openzeppelin/contracts/access/Ownable.sol";
 
-contract Poly is ERC721Enumerable, Ownable {
+contract MetaToken is ERC721Enumerable, Ownable {
   using Strings for uint256;
 
   string public baseURI;
@@ -15,6 +15,7 @@ contract Poly is ERC721Enumerable, Ownable {
   mapping(address => bool) public whitelisted;
 
   constructor() ERC721("POLY MOD-1", "1629") {
+      //baseURI = _newBaseURI
     setBaseURI("https://bafybeibd6kba2nwet5af2m73pdrxunme5yxdv4ofsowphjb7bbgbo7cjui.ipfs.w3s.link/");
     mint(msg.sender,5);
   }
@@ -28,15 +29,6 @@ contract Poly is ERC721Enumerable, Ownable {
   function mint(address _to, uint256 _mintAmount) public payable {
     uint256 supply = totalSupply();
     require(!paused);
-    require(_mintAmount > 0);
-    require(_mintAmount <= maxMintAmount);
-    require(supply + _mintAmount <= maxSupply);
-
-    if (msg.sender != owner()) {
-        if(whitelisted[msg.sender] != true) {
-          require(msg.value >= cost * _mintAmount);
-        }
-    }
 
     for (uint256 i = 1; i <= _mintAmount; i++) {
       _safeMint(_to, supply + i);
