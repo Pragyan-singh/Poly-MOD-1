@@ -8,20 +8,19 @@ const hre = require("hardhat");
 const tokenContractJSON = require("../artifacts/contracts/MetaToken.sol/MetaToken.json");
 require('dotenv').config()
 
-const tokenAddress = "0xdB4a0DD31216EE77e8ff63eeBF924cb7611841CB"; // place your erc20 contract address here
+const tokenAddress = "0xCae322ddD4BE401D7d6C390Bde14DEE558E28793"; // place your erc20 contract address here
 const tokenABI = tokenContractJSON.abi;
 const walletAddress = "0xBeeF8E9b0eABa30e7c1DF83675780C784aa78e2c"; // place your public address for your wallet here
 
 async function main() {
 
     const token = await hre.ethers.getContractAt(tokenABI, tokenAddress);
-    
-    //const tx = await token.mint("0xBeeF8E9b0eABa30e7c1DF83675780C784aa78e2c",5);
-    //await tx.wait();
+  
+    const tx = await token.mint(walletAddress, 5);
+    await tx.wait();
 
     console.log("You now have: " + await token.balanceOf(walletAddress) + " tokens");
   }
-  //console.log("ok");
   
   // We recommend this pattern to be able to use async/await everywhere
   // and properly handle errors.
